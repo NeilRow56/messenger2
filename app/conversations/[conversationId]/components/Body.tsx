@@ -11,12 +11,15 @@ interface BodyProps {
 }
 
 const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
-  const [messages, setMessages] = useState(initialMessages)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const [messages, setMessages] = useState(initialMessages)
 
   const { conversationId } = useConversation()
 
-  //make an axios call to indicate message has been seen
+  useEffect(() => {
+    axios.post(`/api/conversations/${conversationId}/seen`)
+  }, [conversationId])
+
   useEffect(() => {
     axios.post(`/api/conversations/${conversationId}/seen`)
   }, [conversationId])
